@@ -3,3 +3,4 @@
 /.tmp/
 /logs/
 /scripts/celeba_config
+/celeba/img_align_celeba/
