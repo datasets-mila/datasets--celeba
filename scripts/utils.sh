@@ -177,6 +177,42 @@ function print_annex_checksum {
 	done
 }
 
+function rclone_copy {
+	while [[ $# -gt 0 ]]
+	do
+		local _arg="$1"; shift
+		case "${_arg}" in
+			--remote) local _REMOTE="$1"; shift
+			echo "remote = [${_REMOTE}]"
+			;;
+			--root) local _GDRIVE_DIR_ID="$1"; shift
+			echo "root = [${_GDRIVE_DIR_ID}]"
+			;;
+			-h | --help)
+			>&2 echo "Options for $(basename "$0") are:"
+			>&2 echo "--root GDRIVE_DIR_ID Google Drive root directory id"
+			exit 1
+			;;
+			--) break ;;
+			*) >&2 echo "Unknown option [${_arg}]"; exit 3 ;;
+		esac
+	done
+
+	for _src_w_dest in "$@"
+	do
+		local _src_w_dest=(${_src_w_dest[@]})
+		local _src=${_src_w_dest[0]}
+		local _dest=${_src_w_dest[1]}
+		if [[ -z ${_GDRIVE_DIR_ID} ]]
+		then
+			rclone backend copyid ${_REMOTE}: ${_src} ${_dest}
+		else
+			rclone copy --progress --create-empty-src-dirs --copy-links \
+				--drive-root-folder-id=${_GDRIVE_DIR_ID} ${_REMOTE}:${_src} ${_dest}
+		fi
+	done
+}
+
 function list {
 	while [[ $# -gt 0 ]]
 	do
