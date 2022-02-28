@@ -125,6 +125,7 @@ function init_venv {
 }
 
 function print_annex_checksum {
+	local _CHECKSUM=MD5
 	while [[ $# -gt 0 ]]
 	do
 		local _arg="$1"; shift
@@ -132,7 +133,7 @@ function print_annex_checksum {
 			-c | --checksum) local _CHECKSUM="$1"; shift ;;
 			-h | --help)
 			>&2 echo "Options for $(basename "$0") are:"
-			>&2 echo "[-c | --checksum CHECKSUM] checksum to print"
+			>&2 echo "[-c | --checksum CHECKSUM] checksum to print (default: MD5)"
 			exit 1
 			;;
 			--) break ;;
