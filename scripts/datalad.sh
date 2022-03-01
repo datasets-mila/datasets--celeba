@@ -3,7 +3,7 @@
 source scripts/utils.sh echo -n
 
 function install_datalad {
-	init_venv --name venv --tmp .tmp/
+	init_venv --name venv --prefix .tmp/
 	exit_on_error_code "Failed to init venv"
 
 	datalad --version >/dev/null 2>&1 || python3 -m pip install -r scripts/requirements_datalad.txt
