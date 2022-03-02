@@ -177,6 +177,36 @@ function print_annex_checksum {
 	done
 }
 
+function list {
+	while [[ $# -gt 0 ]]
+	do
+		local _arg="$1"; shift
+		case "${_arg}" in
+			-d | --dataset) local _DATASET="$1"; shift ;;
+			-h | --help)
+			>&2 echo "Options for $(basename "$0") are:"
+			>&2 echo "[-d | --dataset PATH] dataset location"
+			git-annex list --help >&2
+			exit 1
+			;;
+			--) break ;;
+			*) >&2 echo "Unknown option [${_arg}]"; exit 3 ;;
+		esac
+	done
+
+	if [[ ! -z "${_DATASET}" ]]
+	then
+		pushd "${_DATASET}" >/dev/null || exit 1
+	fi
+
+	git-annex list "$@" | grep -o " .*" | grep -Eo "[^ ]+.*"
+
+	if [[ ! -z "${_DATASET}" ]]
+	then
+		popd >/dev/null
+	fi
+}
+
 function unshare_mount {
 	if [[ ${EUID} -ne 0 ]]
 	then
