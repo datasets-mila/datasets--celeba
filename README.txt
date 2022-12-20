@@ -2,6 +2,8 @@
 Large-scale CelebFaces Attributes (CelebA) Dataset
 ========================================================
 
+`<http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html>`_
+
 --------------------------------------------------------
 By Multimedia Lab, The Chinese University of Hong Kong
 --------------------------------------------------------
